@@ -35,6 +35,8 @@ if host_machine.system() == 'darwin'
   name_suffix = 'so'
 endif
 
+CXX = meson.get_compiler('c')
+
 shared_library('obs-gstreamer',
   'gstreamer.c',
   'gstreamer-source.c',
@@ -50,11 +52,13 @@ shared_library('obs-gstreamer',
   name_suffix : name_suffix,
   dependencies : [
     obs_dep,
-    dependency('gstreamer-1.0', version : '>=1.16.0'),
-    dependency('gstreamer-video-1.0'),
-    dependency('gstreamer-audio-1.0'),
-    dependency('gstreamer-app-1.0'),
-    dependency('gstreamer-net-1.0'),
+    CXX.find_library('gstreamer-1.0', dirs : ['/opt/homebrew/Cellar/gstreamer/1.24.7/lib']),
+    CXX.find_library('gstvideo-1.0', dirs : ['/opt/homebrew/Cellar/gstreamer/1.24.7/lib']),
+    CXX.find_library('gstaudio-1.0', dirs : ['/opt/homebrew/Cellar/gstreamer/1.24.7/lib']),
+    CXX.find_library('gstapp-1.0', dirs : ['/opt/homebrew/Cellar/gstreamer/1.24.7/lib']),
+    CXX.find_library('gstnet-1.0', dirs : ['/opt/homebrew/Cellar/gstreamer/1.24.7/lib']),
+    CXX.find_library('glib-2.0', dirs : ['/opt/homebrew/Cellar/glib/2.80.4/lib']),
+    CXX.find_library('gobject-2.0', dirs : ['/opt/homebrew/Cellar/glib/2.80.4/lib']),
   ],
   install : true,
 )
